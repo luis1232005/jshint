@@ -2357,7 +2357,22 @@ var JSHINT = (function() {
             i = c.value.substr(0, 1);
             if (state.option.newcap && (i < "A" || i > "Z") &&
               !state.funct["(scope)"].isPredefined(c.value)) {
-              warning("W055", state.tokens.curr);
+              //排除框架不符合规范的变量名
+              var flag = false;
+              var exclude = state.option.newcapExtend || [];
+              var refValue = '';
+              for(var i=0;i<exclude.length;i++){
+                refValue = exclude[i];
+                if(Object.prototype.toString.call(refValue) == '[object String]' && c.value === refValue){
+                  flag = true;break;
+                }
+                if(Object.prototype.toString.call(refValue) == '[object Object]' && refValue.match && new RegExp(refValue.match,'g').test(c.value)){
+                  flag = true;break;
+                }
+              }
+              if(!flag){
+                warning("W055", state.tokens.curr);
+              }
             }
           }
         }
