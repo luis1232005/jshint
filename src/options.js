@@ -32,6 +32,8 @@ exports.bool = {
      *             project](https://github.com/jscs-dev/node-jscs).
      */
     camelcase   : true,
+    
+    camelcaseExclude: [],
 
     /**
      * This option requires you to always put curly braces around blocks in
