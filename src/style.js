@@ -43,7 +43,24 @@ exports.register = function(linter) {
     if (!linter.getOption("camelcase")) {
       return;
     }
-
+    
+    //排除框架不符合规范的变量名
+    var flag = false;
+    var exclude = linter.getOption("camelcaseExclude") || [];
+    var refValue = '';
+    for(var i=0;i<exclude.length;i++){
+      refValue = exclude[i];
+      if(Object.prototype.toString.call(refValue) == '[object String]' && data.name === refValue){
+         flag = true;break;
+      }
+      if(Object.prototype.toString.call(refValue) == '[object Object]' && refValue.match && new RegExp(refValue.match,'g').test(data.name)){
+         flag = true;break;
+      }
+    }
+    if(flag){
+      return;
+    }
+    
     if (data.name.replace(/^_+|_+$/g, "").indexOf("_") > -1 && !data.name.match(/^[A-Z0-9_]*$/)) {
       linter.warn("W106", {
         line: data.line,
