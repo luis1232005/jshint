@@ -144,6 +144,7 @@ exports.bool = {
      *             project](https://github.com/jscs-dev/node-jscs).
      */
     newcap      : true,
+    newcapExtend: [],
 
     /**
      * This option prohibits the use of `arguments.caller` and
